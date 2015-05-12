@@ -1,0 +1,13 @@
+{
+    "name": "dotplant/twitter-cards",
+    "type": "dotplant2-extension",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "DotPlant\\TwitterCards\\": "src/"
+        }
+    },
+    "require": {
+        "devgroup/dotplant": "dev-master"
+    }
+}
