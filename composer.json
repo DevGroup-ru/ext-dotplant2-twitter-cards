@@ -8,6 +8,6 @@
         }
     },
     "require": {
-        "devgroup/dotplant": "dev-master"
+
     }
 }
