@@ -31,6 +31,9 @@ class ConfigurationModel extends BaseConfigurationModel
                     'class' => 'DotPlant\TwitterCards\Module',
                 ],
             ],
+            'bootstrap' => [
+                'twitterCards',
+            ],
         ];
     }
 
