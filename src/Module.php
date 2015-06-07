@@ -33,7 +33,6 @@ class Module extends ExtensionModule implements BootstrapInterface
     public $jsonProductData = '{"product_field_1":{"type":"field","key":"price"},"product_field_2":{"type":"field","key":"sku"}}';
 
 
-
     /**
      * @inheritdoc
      */
@@ -93,12 +92,21 @@ class Module extends ExtensionModule implements BootstrapInterface
                 } else {
                     if (
                         $app->requestedAction->controller instanceof app\modules\shop\controllers\ProductController &&
-                        ($app->requestedAction->id == 'show' || $app->requestedAction->id == 'list' )
+                        $app->requestedAction->id == 'list'
                     ) {
                         ViewEvent::on(
                             app\modules\shop\controllers\ProductController::className(),
                             app\modules\shop\controllers\ProductController::EVENT_PRE_DECORATOR,
-                            [$this, 'registerMeta']
+                            [$this, 'registerMetaSummary']
+                        );
+                    } elseif (
+                        $app->requestedAction->controller instanceof app\modules\shop\controllers\ProductController &&
+                        $app->requestedAction->id == 'show'
+                    ) {
+                        ViewEvent::on(
+                            app\modules\shop\controllers\ProductController::className(),
+                            app\modules\shop\controllers\ProductController::EVENT_PRE_DECORATOR,
+                            [$this, 'registrMetaProductCard']
                         );
                     } elseif (
                         $app->requestedAction->controller instanceof app\modules\page\controllers\PageController &&
@@ -107,7 +115,7 @@ class Module extends ExtensionModule implements BootstrapInterface
                         ViewEvent::on(
                             app\modules\page\controllers\PageController::className(),
                             app\modules\page\controllers\PageController::EVENT_PRE_DECORATOR,
-                            [$this, 'registerMeta']
+                            [$this, 'registerMetaSummary']
                         );
                     }
                 }
@@ -154,7 +162,7 @@ class Module extends ExtensionModule implements BootstrapInterface
         ]);
     }
 
-    public function registerMeta(ViewEvent $event)
+    public function registerMetaSummary(ViewEvent $event)
     {
         if (empty($event->params['model'])) {
             return null;
@@ -167,6 +175,34 @@ class Module extends ExtensionModule implements BootstrapInterface
                 $twitterCard->title,
                 $twitterCard->description,
                 Yii::$app->request->hostInfo . $twitterCard->image
+            );
+        }
+    }
+
+
+    public function registrMetaProductCard(ViewEvent $event)
+    {
+        if (empty($event->params['model'])) {
+            return null;
+        }
+
+        $model = $event->params['model'];
+        $data = app\components\Helper::getRelationDataByModel($model, json_decode($this->jsonProductData, true));
+        $twitterCard = static::loadModel($model, false);
+        if (
+            $twitterCard &&
+            isset($data['product_field_1']) &&
+            isset($data['product_field_2'])
+        ) {
+            app\modules\seo\helpers\HtmlTagHelper::registerTwitterProductCard(
+                $this->twitter_acount,
+                $twitterCard->title,
+                $twitterCard->description,
+                Yii::$app->request->hostInfo . $twitterCard->image,
+                $data['product_field_1']['label'],
+                $data['product_field_1']['value'],
+                $data['product_field_2']['label'],
+                $data['product_field_2']['value']
             );
         }
     }

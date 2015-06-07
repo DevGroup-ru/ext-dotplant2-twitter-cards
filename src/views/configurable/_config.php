@@ -27,7 +27,7 @@ use app\modules\shop\models\Product;
                 'relations' => [
                     [
                         'class' => Category::className(),
-                        'relationName' => 'getCategory()'
+                        'relationName' => 'category'
                     ]
                 ],
                 'fields' => [

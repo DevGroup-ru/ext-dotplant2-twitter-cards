@@ -52,6 +52,8 @@ class ConfigurationModel extends BaseConfigurationModel
             'modules' => [
                 'twitterCards' => [
                     'class' => 'DotPlant\TwitterCards\Module',
+                    'twitter_acount' => $this->twitter_acount,
+                    'jsonProductData' => $this->jsonProductData
                 ],
             ],
             'bootstrap' => [
