@@ -7,6 +7,29 @@ use app\modules\config\models\BaseConfigurationModel;
 class ConfigurationModel extends BaseConfigurationModel
 {
 
+    public $twitter_acount;
+
+    public $jsonProductData;
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['twitter_acount', 'jsonProductData'], 'required'],
+            [['twitter_acount'], 'match', 'pattern' => '/@([A-Za-z0-9_]{1,15})/']
+        ];
+    }
+
+    public function beforeValidate()
+    {
+        if (\Yii::$app->request->post('data')) {
+            $this->jsonProductData = json_encode(\Yii::$app->request->post('data'));
+        }
+        return parent::beforeValidate();
+    }
+
     /**
      * Fills model attributes with default values
      * @return void
@@ -32,7 +55,7 @@ class ConfigurationModel extends BaseConfigurationModel
                 ],
             ],
             'bootstrap' => [
-                'twitterCards',
+                'twitterCards' => 'twitterCards',
             ],
         ];
     }

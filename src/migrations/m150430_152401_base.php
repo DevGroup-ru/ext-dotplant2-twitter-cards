@@ -33,6 +33,6 @@ class m150430_152401_base extends Migration
     public function down()
     {
         $this->delete('{{%configurable}}', ['module' => 'twitterCards']);
-        $this->delete('{{%object_twitter_card}}');
+        $this->dropTable('{{%object_twitter_card}}');
     }
 }

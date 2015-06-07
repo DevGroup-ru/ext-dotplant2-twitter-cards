@@ -19,6 +19,13 @@ class Module extends ExtensionModule implements BootstrapInterface
 {
     public static $moduleId = 'twitterCards';
 
+
+    public $twitter_acount = '@DotPlant';
+
+    public $jsonProductData = '{"product_field_1":{"type":"field","key":"price"},"product_field_2":{"type":"field","key":"sku"}}';
+
+
+
     /**
      * @inheritdoc
      */
