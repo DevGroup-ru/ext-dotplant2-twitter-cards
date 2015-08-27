@@ -1,6 +1,4 @@
 Twitter Cards extension for DotPlant2 CMS
 =========================================
 
-
-Description to be done
-
+Adds twitter card support to [DotPlant 2](http://dotplant.ru)
